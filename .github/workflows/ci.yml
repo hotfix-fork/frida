@@ -1834,6 +1834,10 @@ jobs:
           path: ${{ env.FRIDA_PREFIX }}/lib/frida/32/frida-gadget.so
 
   toolchain-windows:
+    strategy:
+      matrix:
+        arch: [x86, arm64]
+      fail-fast: false
     runs-on: windows-latest
     steps:
       - name: Check out repo
@@ -1846,13 +1850,13 @@ jobs:
           cloudflare-email: ${{ secrets.CF_EMAIL }}
           cloudflare-token: ${{ secrets.CF_TOKEN }}
       - name: Roll toolchain
-        run: python releng\deps.py roll toolchain windows-x86
+        run: python releng\deps.py roll toolchain windows-${{ matrix.arch }}
 
   sdk-windows:
     needs: toolchain-windows
     strategy:
       matrix:
-        arch: [x86, x86_64]
+        arch: [x86, x86_64, arm64]
         config: [md, mdd, mt, mtd]
       fail-fast: false
     runs-on: windows-latest
