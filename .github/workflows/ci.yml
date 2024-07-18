@@ -1836,7 +1836,7 @@ jobs:
   toolchain-windows:
     strategy:
       matrix:
-        arch: [x86, arm64]
+        arch: [x86_64, arm64]
       fail-fast: false
     runs-on: windows-latest
     steps:
